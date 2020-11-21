@@ -28,16 +28,26 @@ class AppServiceProvider extends ServiceProvider
     {
         \Illuminate\Database\Schema\Builder::defaultStringLength(191);
 
+        view()->composer('elements.sidebar', function ($view) {
+            $view->with('categories', Category::where('status', true)->limit(5)->get());
+        });
 
-        //TODO FATAL view share дает ошибку при первом запуске миграций решить!!!!
-        view()->share('categories', Category::where('status', true)->limit(5)->get());
-        view()->share('productRandom', Product::where('status', true)->inRandomOrder()->first());
-        view()->share('productsLimit', Product::with(['category'])
-            ->where('status', true)
-            ->limit(3)
-            ->get());
+        view()->composer('elements.footer', function ($view) {
+            $view->with('productRandom', Product::where('status', true)->inRandomOrder()->first());
+        });
 
-        //TODO Сервис контейнер не знает о зарегестрированном пользователе. Решить данную проблему
-        //   view()->share('countOrders', Order::where('user_id', auth()->id())->count());
+        view()->composer('elements.content.bottom', function ($view) {
+            $view->with('productsLimit', Product::with(['category'])
+                ->where('status', true)
+                ->limit(3)
+                ->get());
+        });
+
+        view()->composer('elements.header', function ($view) {
+            $view->with('countOrders', Order::where('user_id', auth()->id())
+                ->where('payment_state', false)
+                ->where('status', true)
+                ->count());
+        });
     }
 }

@@ -22,6 +22,7 @@ class Order extends Model
     {
         return Order::with('product')
             ->where('user_id', $userId)
+            ->where('payment_state', false)
             ->where('status', true)
             ->get();
     }
@@ -30,6 +31,7 @@ class Order extends Model
     {
         return Order::with('product')
             ->where('user_id', $userId)
+            ->where('payment_state', false)
             ->where('status', true)
             ->paginate($paginate);
     }

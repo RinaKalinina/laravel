@@ -40,7 +40,7 @@
                     </div>
 
                     <div class="payment-basket__status__basket">
-                        <span class="payment-basket__status__basket-value">0</span>
+                        <span class="payment-basket__status__basket-value">{{$countOrders}}</span>
                         <span class="payment-basket__status__basket-value-descr">товаров</span>
                     </div>
                 </div>

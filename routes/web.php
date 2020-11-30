@@ -20,9 +20,10 @@ Route::get('about', function () {
     return view('pages.about');
 })->name('about');
 
-Route::get('news', function () {
-    return view('news.list');
-})->name('news');
+Route::group(['prefix' => 'news'], function () {
+    Route::get('/', 'NewsController@index')->name('news.index');
+    Route::get('{news}', 'NewsController@show')->name('news.show');
+});
 
 Route::group(['prefix' => 'categories'], function () {
     Route::get('{category}', 'CategoriesController@show')->name('categories.show');

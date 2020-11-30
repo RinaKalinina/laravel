@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'All News')
+
 @section('content')
     <div class="content-middle">
         <div class="content-head__container">
@@ -10,39 +11,33 @@
         </div>
         <div class="content-main__container">
             <div class="news-list__container">
+                @forelse($news as $item)
                 <div class="news-list__item">
-                    <div class="news-list__item__thumbnail"><img src="img/news/ps_vr.jpg"></div>
+                    <div class="news-list__item__thumbnail">
+                        <img src="{{ asset("storage/news/$item->cover") }}">
+                    </div>
                     <div class="news-list__item__content">
-                        <div class="news-list__item__content__news-title">О новых играх в режиме VR</div>
-                        <div class="news-list__item__content__news-date">04.12.2016</div>
+                        <div class="news-list__item__content__news-title">
+                            {{ $item->name }}
+                        </div>
+                        <div class="news-list__item__content__news-date">
+                            {{ date('d.m.Y', strtotime($item->created_at)) }}
+                        </div>
                         <div class="news-list__item__content__news-content">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et dolore
-                            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                            ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            {{ $item->description }}
                         </div>
                     </div>
-                    <div class="news-list__item__content__news-btn-wrap"><a href="#" class="btn btn-brown">Подробнее</a>
+                    <div class="news-list__item__content__news-btn-wrap">
+                        <a href="{{ route('news.show', $item) }}"
+                           class="btn btn-brown">Подробнее</a>
                     </div>
                 </div>
-                <div class="news-list__item">
-                    <div class="news-list__item__thumbnail"><img src="img/news/ps4-pro_01.jpg"></div>
-                    <div class="news-list__item__content">
-                        <div class="news-list__item__content__news-title">О новой PS4 Pro</div>
-                        <div class="news-list__item__content__news-date">04.12.2016</div>
-                        <div class="news-list__item__content__news-content">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et dolore
-                            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                            ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        </div>
-                    </div>
-                    <div class="news-list__item__content__news-btn-wrap"><a href="#" class="btn btn-brown">Подробнее</a>
-                    </div>
-                </div>
+                @empty
+                    <p>Новости не найдены</p>
+                @endforelse
             </div>
         </div>
+
+        {{ $news->links() }}
     </div>
 @endsection
